@@ -1,0 +1,35 @@
+/* .mainNavBar {
+  background-color: #03363d;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  z-index: 10;
+}
+
+.siteHeader {
+  padding: 0;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 60px;
+  z-index: 11;
+  background: linear-gradient(0deg, #e9ebed 1px, #ffffff 1px);
+} */
+
+.loginPg {
+  background-color: grey;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginBox {
+  -webkit-box-shadow: 0px 0px 14px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 14px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 14px -3px rgba(0, 0, 0, 0.75);
+}
