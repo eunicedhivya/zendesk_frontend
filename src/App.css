@@ -11,11 +11,21 @@
 
 */
 
+/* font-family: 'Josefin Sans', sans-serif;
+font-family: 'Yeseva One', cursive; */
+
 .siteHeader {
   background: linear-gradient(0deg, #e9ebed 1px, #ffffff 1px);
 }
 body {
   background-color: #f8f8f8;
+}
+
+.frames,
+.frames__col {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  height: calc(100vh - 55px);
 }
 
 .text-center {
@@ -29,8 +39,8 @@ body {
 }
 
 .layout {
-  width: calc(100% - 60px);
-  margin-left: 60px;
+  width: calc(100% - 75px);
+  margin-left: 75px;
 }
 
 .loginPg {
@@ -54,7 +64,7 @@ body {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 60px;
+  width: 75px;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -63,6 +73,40 @@ body {
   align-items: center;
 }
 
+.siteBranding h1 {
+  font-family: "Yeseva One", cursive;
+  color: #e8e8e8;
+  font-style: italic;
+  font-size: 36px;
+}
+
+.mainNav a {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
 .welcomeUser {
-  font-size: 24px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0;
+  line-height: 36px;
+}
+
+.stickToBottom {
+  position: fixed;
+  bottom: -16px;
+  width: 70%;
+  background-color: #fff;
+  margin-left: -16px;
+  padding: 20px;
+  box-sizing: border-box;
 }

@@ -16,20 +16,20 @@ function MainNavBar() {
       <Row className="text-center siteBranding">
         <h1>ZC</h1>
       </Row>
-      <Row className="text-center">
-        <Link to="/">
+      <Row className="text-center mainNav">
+        <Link to="/dashboard">
           <FontAwesomeIcon icon={faHome} />
         </Link>
-        <Link to="/">
+        <Link to="/users">
           <FontAwesomeIcon icon={faUserGroup} />
         </Link>
-        <Link to="/">
+        <Link to="/categories">
           <FontAwesomeIcon icon={faLayerGroup} />
         </Link>
-        <Link to="/">
+        <Link to="/products">
           <FontAwesomeIcon icon={faStore} />
         </Link>
-        <Link to="/">
+        <Link to="/settings">
           <FontAwesomeIcon icon={faGear} />
         </Link>
       </Row>

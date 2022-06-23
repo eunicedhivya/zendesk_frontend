@@ -10,6 +10,7 @@ import AddTicket from "./pages/AddTicket";
 import Layout from "./layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import AddUser from "./pages/AddUser";
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
         <Route path="/" exact>
           <LoginPg />
         </Route>
+        <Route exact path="/dashboard">
+          <Layout>
+            <Dashboard />
+          </Layout>
+        </Route>
         <Route path="/forget-password">
           <ForgetPassword />
         </Route>
@@ -33,11 +39,12 @@ function App() {
             <AddTicket />
           </Layout>
         </Route>
-        <Route exact path="/dashboard">
+        <Route path="/add-user">
           <Layout>
-            <Dashboard />
+            <AddUser />
           </Layout>
         </Route>
+
         <Route path="**">
           <Layout>
             <NotFound />

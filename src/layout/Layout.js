@@ -9,7 +9,7 @@ function Layout({ children }) {
       <SiteHeader />
       <MainNavBar />
       <main className="main">{children}</main>
-      <SiteFooter />
+      {/* <SiteFooter /> */}
     </div>
   );
 }

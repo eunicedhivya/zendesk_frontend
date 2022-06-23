@@ -8,7 +8,7 @@ import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 
 function SiteHeader() {
   return (
-    <header className="siteHeader p-2 mb-4">
+    <header className="siteHeader p-2">
       <Container fluid>
         <Row>
           <Col>

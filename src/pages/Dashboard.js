@@ -26,7 +26,7 @@ function Dashboard() {
   ];
   return (
     <div>
-      <Container>
+      <Container className="mt-4">
         <Row className="mb-3">
           <Col>
             <DataPoints icon={faTicket} title="Total Tickets" number="12" />
