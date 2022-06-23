@@ -6,6 +6,24 @@ import { faTicket } from "@fortawesome/free-solid-svg-icons";
 import TicketTable from "../components/TicketTable";
 
 function Dashboard() {
+  const ticketList = [
+    {
+      _id: 600009040440,
+      subject: "File not found error",
+      status: "Pending",
+      message: [],
+      date: "June 11, 2020",
+      product: "Product 1",
+    },
+    {
+      _id: 600009040441,
+      subject: "Unable to install product from provided CD",
+      status: "open",
+      message: [],
+      date: "June 12, 2020",
+      product: "Product 2",
+    },
+  ];
   return (
     <div>
       <Container>
@@ -27,7 +45,7 @@ function Dashboard() {
         <Row>
           <Col className="recent-ticket">
             {/* <TicketTable tickets={tickets} /> */}
-            <TicketTable />
+            <TicketTable ticketList={ticketList} />
           </Col>
         </Row>
       </Container>

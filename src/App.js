@@ -9,6 +9,7 @@ import LoginPg from "./pages/LoginPg";
 import AddTicket from "./pages/AddTicket";
 import Layout from "./layout/Layout";
 import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -38,7 +39,9 @@ function App() {
           </Layout>
         </Route>
         <Route path="**">
-          <h1>404 Page not found</h1>
+          <Layout>
+            <NotFound />
+          </Layout>
         </Route>
       </Switch>
     </div>

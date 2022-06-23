@@ -1,22 +1,38 @@
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
 
-function TicketTable() {
+function TicketTable({ ticketList }) {
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th style={{ width: "10%" }}>#</th>
-          <th style={{ width: "50%" }}>Ticket</th>
-          <th style={{ width: "20%" }}>Status</th>
-          <th style={{ width: "20%" }}>Opened Date</th>
+          <th style={{ width: "6%" }}>#</th>
+          <th style={{ width: "49%" }}>Ticket</th>
+          <th style={{ width: "10%" }}>Status</th>
+          <th style={{ width: "15%" }}>Opened Date</th>
+          <th style={{ width: "20%" }}>Product</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colSpan="4" className="text-center">
-            No ticket show{" "}
-          </td>
-        </tr>
+        {ticketList.length ? (
+          ticketList.map((item, i) => (
+            <tr>
+              <td>{i + 1}</td>
+              <td>
+                <Link to={`/ticket/${item._id}`}>{item.subject}</Link>
+              </td>
+              <td>{item.status}</td>
+              <td>{item.date}</td>
+              <td>{item.product}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="5" className="text-center">
+              No ticket show{" "}
+            </td>
+          </tr>
+        )}
       </tbody>
     </Table>
   );
