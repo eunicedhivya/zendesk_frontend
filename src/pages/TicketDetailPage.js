@@ -101,12 +101,18 @@ function TicketDetailPage() {
           <Card>
             <Card.Header>
               <Row>
-                <Col lg="10" className="order-sm-2">
+                <Col lg="10">
                   <h2 className="subject">
                     <b>Subject:</b> {ticketDetails.subject}
                   </h2>
+                  <p>
+                    <b>Date: </b>
+                    {ticketDetails.issueDate} . <b>Assignee: </b>
+                    {ticketDetails.assignee} . <b>Client: </b>
+                    {ticketDetails.client}
+                  </p>
                 </Col>
-                <Col lg="2" className="order-sm-1 text-right">
+                <Col lg="2" className="text-right">
                   <Button>Close ticket</Button>
                 </Col>
               </Row>
