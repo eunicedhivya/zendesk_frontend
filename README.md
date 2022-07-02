@@ -1,11 +1,11 @@
 Demo account:
 
-*** Client ***
-harry@email.com
-password@123
+*** Client *** <br>
+harry@email.com <br>
+ password@123
 
-*** Agent ***
-albus@email.com
+*** Agent *** <br>
+albus@email.com <br>
 password@123
 
 # Getting Started with Create React App
