@@ -7,7 +7,8 @@ function TicketTable({ ticketList }) {
       <thead>
         <tr>
           <th style={{ width: "6%" }}>#</th>
-          <th style={{ width: "69%" }}>Ticket</th>
+          <th style={{ width: "50%" }}>Ticket</th>
+          <th style={{ width: "19%" }}>Assigned</th>
           <th style={{ width: "10%" }}>Status</th>
           <th style={{ width: "15%" }}>Opened Date</th>
         </tr>
@@ -20,6 +21,7 @@ function TicketTable({ ticketList }) {
               <td>
                 <Link to={`/tickets/${item._id}`}>{item.subject}</Link>
               </td>
+              <td>{item.assignee}</td>
               <td>{item.ticketStatus}</td>
               <td>{item.issueDate}</td>
             </tr>
