@@ -15,9 +15,10 @@ import NotFound from "./pages/NotFound";
 import AddUser from "./pages/AddUser";
 import Users from "./pages/Users";
 import TicketDetailPage from "./pages/TicketDetailPage";
-import AddTicketByClient from "./pages/AddTicketByClient";
-import AddTicketByAgent from "./pages/AddTicketByAgent";
-import AddTicketByAdmin from "./pages/AddTicketByAdmin";
+// import AddTicketByClient from "./pages/AddTicketByClient";
+// import AddTicketByAgent from "./pages/AddTicketByAgent";
+// import AddTicketByAdmin from "./pages/AddTicketByAdmin";
+import AddTicket from "./pages/AddTicket";
 
 import { useContext } from "react";
 import AuthContext from "./context/AuthContextProvider";
@@ -40,7 +41,12 @@ function App() {
         <Route path="/forget-password">
           <ForgetPassword />
         </Route>
-        {userRole === "client" ? (
+        <Route path="/add-ticket">
+          <Layout>
+            <AddTicket />
+          </Layout>
+        </Route>
+        {/* {userRole === "client" ? (
           <Route path="/add-ticket">
             <Layout>
               <AddTicketByClient />
@@ -66,7 +72,7 @@ function App() {
           </Route>
         ) : (
           ""
-        )}
+        )} */}
 
         <Route path="/add-user">
           <Layout>

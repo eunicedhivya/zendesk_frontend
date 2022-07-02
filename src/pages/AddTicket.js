@@ -10,15 +10,17 @@ import { useFormik } from "formik";
 
 import { toast } from "react-toastify";
 
+import { useContext } from "react";
+import AuthContext from "../context/AuthContextProvider";
+
 const formValidationSchema = Yup.object({
   subject: Yup.string().required("  Subject is required"),
-  assignee: Yup.string().required("  Assignee is required"),
-  client: Yup.string().required("  Client is required"),
   message: Yup.string().required("  Message is required"),
   issueDate: Yup.string().required("  Issue Date is required"),
 });
 
 function AddTicket() {
+  const { loggedIn, userRole, firstName } = useContext(AuthContext);
   const [clients, setClients] = useState([]);
   const [agents, setAgents] = useState([]);
 
@@ -36,10 +38,17 @@ function AddTicket() {
       validationSchema: formValidationSchema,
       onSubmit: (values) => {
         values.conversation.push({
-          sender: values.client,
+          sender: firstName,
+          role: userRole,
           message: values.message,
         });
-        // console.log("onSubmit", values);
+
+        if (userRole === "client") {
+          values.assignee = "unassigned";
+          values.client = firstName;
+        }
+
+        console.log("onSubmit", values);
         const url = "http://localhost:4000/tickets/add";
         fetch(url, {
           method: "POST",
@@ -60,7 +69,6 @@ function AddTicket() {
               toast.error(data.message);
             } else if (data.type === "success") {
               toast.success(data.message);
-              // history.push("/");
             }
           });
       },
@@ -158,48 +166,54 @@ function AddTicket() {
               </FloatingLabel>
               {errors.message && touched.message ? errors.message : ""}
             </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Assignee</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                name="assignee"
-                value={values.assignee}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.assignee && errors.assignee}
-              >
-                <option>Assign a agent</option>
-                {clients.map(function (client) {
-                  return (
-                    <option key={client._id} value={client.fname}>
-                      {client.fname}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-              {errors.assignee && touched.assignee ? errors.assignee : ""}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Client</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                name="client"
-                value={values.client}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.client && errors.client}
-              >
-                <option>Assign a client</option>
-                {agents.map(function (agent) {
-                  return (
-                    <option key={agent._id} value={agent.fname}>
-                      {agent.fname}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-              {errors.client && touched.client ? errors.client : ""}
-            </Form.Group>
+            {userRole === "admin" || userRole === "agent" ? (
+              <>
+                <Form.Group className="mb-3">
+                  <Form.Label>Assignee</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="assignee"
+                    value={values.assignee}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.assignee && errors.assignee}
+                  >
+                    <option>Assign a agent</option>
+                    {clients.map(function (client) {
+                      return (
+                        <option key={client._id} value={client.fname}>
+                          {client.fname}
+                        </option>
+                      );
+                    })}
+                  </Form.Select>
+                  {errors.assignee && touched.assignee ? errors.assignee : ""}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Client</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="client"
+                    value={values.client}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.client && errors.client}
+                  >
+                    <option>Assign a client</option>
+                    {agents.map(function (agent) {
+                      return (
+                        <option key={agent._id} value={agent.fname}>
+                          {agent.fname}
+                        </option>
+                      );
+                    })}
+                  </Form.Select>
+                  {errors.client && touched.client ? errors.client : ""}
+                </Form.Group>
+              </>
+            ) : (
+              ""
+            )}
             <Button type="submit">Submit</Button>
           </Col>
         </Row>
