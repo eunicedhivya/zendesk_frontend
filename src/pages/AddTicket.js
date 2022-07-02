@@ -181,10 +181,10 @@ function AddTicket() {
                     error={touched.assignee && errors.assignee}
                   >
                     <option>Assign a agent</option>
-                    {clients.map(function (client) {
+                    {agents.map(function (agent) {
                       return (
-                        <option key={client._id} value={client.fname}>
-                          {client.fname}
+                        <option key={agent._id} value={agent.fname}>
+                          {agent.fname}
                         </option>
                       );
                     })}
@@ -202,10 +202,10 @@ function AddTicket() {
                     error={touched.client && errors.client}
                   >
                     <option>Assign a client</option>
-                    {agents.map(function (agent) {
+                    {clients.map(function (client) {
                       return (
-                        <option key={agent._id} value={agent.fname}>
-                          {agent.fname}
+                        <option key={client._id} value={client.fname}>
+                          {client.fname}
                         </option>
                       );
                     })}
