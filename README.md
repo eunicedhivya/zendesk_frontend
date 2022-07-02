@@ -1,3 +1,13 @@
+Demo account:
+
+*** Client ***
+harry@email.com
+password@123
+
+*** Agent ***
+albus@email.com
+password@123
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
