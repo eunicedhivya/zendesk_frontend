@@ -6,13 +6,26 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 
+import { useHistory } from "react-router";
+
+import { toast } from "react-toastify";
+
+import { useContext } from "react";
+import AuthContext from "../context/AuthContextProvider";
+
+import Cookies from "js-cookie";
+
 function SiteHeader() {
+  const history = useHistory();
+  const { loggedIn, userRole, firstName, setLoggedIn } =
+    useContext(AuthContext);
+  console.log("userinfo", firstName, userRole);
   return (
     <header className="siteHeader p-2">
       <Container fluid>
         <Row>
           <Col>
-            <h2 className="welcomeUser">Welcome, User</h2>
+            <h2 className="welcomeUser">Welcome, {firstName}</h2>
           </Col>
           <Col md="auto">
             <Dropdown>
@@ -21,8 +34,11 @@ function SiteHeader() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/add-ticket">Ticket</Dropdown.Item>
-                <Dropdown.Item href="#/add-user">User</Dropdown.Item>
-                <Dropdown.Item href="#/add-product">Product</Dropdown.Item>
+                {userRole === "agent" || userRole === "admin" ? (
+                  <Dropdown.Item href="/add-user">User</Dropdown.Item>
+                ) : (
+                  ""
+                )}
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -33,12 +49,31 @@ function SiteHeader() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/profile">View Profile</Dropdown.Item>
-                <Dropdown.Item href="#/add-user">Help</Dropdown.Item>
                 <Dropdown.Item
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    alert("Logout");
+
+                    Cookies.remove("token");
+                    setLoggedIn(false);
+                    toast.success("Logged out!");
+                    history.push("/");
+
+                    // const url = "http://localhost:4000/users/logout";
+                    // fetch(url, {
+                    //   method: "GET",
+                    //   credentials: "include",
+                    //   headers: {
+                    //     "Content-Type": "application/json",
+                    //     "Access-Control-Allow-Origin": "*",
+                    //     "Access-Control-Allow-Credentials": true,
+                    //   },
+                    // })
+                    //   .then((data) => data.json())
+                    //   .then((data) => {
+                    //     console.log("Success:", data);
+
+                    //   });
                   }}
                 >
                   Logout

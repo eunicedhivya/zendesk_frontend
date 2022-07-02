@@ -110,3 +110,32 @@ body {
   padding: 20px;
   box-sizing: border-box;
 }
+
+.speechBubble {
+  margin-bottom: 20px;
+}
+.speechBubble {
+  text-align: left;
+}
+.speechBubble.right {
+  text-align: right;
+}
+
+.speechBubble .message {
+  border-radius: 20px;
+  background-color: #e8e8e8;
+  padding: 10px;
+  margin: 0;
+}
+.speechBubble .sender {
+  margin: 0;
+}
+
+.scrollBox {
+  height: 250px;
+  overflow-y: scroll;
+}
+
+.subject {
+  font-size: 26px;
+}

@@ -1,9 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import ForgetPassword from "./pages/ForgetPassword";
-import { Switch, Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 // import MainNavBar from "./components/MainNavBar";
-import SiteHeader from "./components/SiteHeader";
+// import SiteHeader from "./components/SiteHeader";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import LoginPg from "./pages/LoginPg";
 import AddTicket from "./pages/AddTicket";
@@ -11,16 +14,17 @@ import Layout from "./layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import AddUser from "./pages/AddUser";
+import Users from "./pages/Users";
+import TicketDetailPage from "./pages/TicketDetailPage";
+
+import { useContext } from "react";
+import AuthContext from "./context/AuthContextProvider";
 
 function App() {
+  const { loggedIn } = useContext(AuthContext);
   return (
     <div className="App">
-      {/* <LoginPg /> */}
-      {/* <MainNavBar />*/}
-      {/* <SiteHeader /> */}
-      {/* <Layout>
-        <Dashboard />
-      </Layout> */}
+      <ToastContainer autoClose={4000} />
 
       <Switch>
         <Route path="/" exact>
@@ -44,7 +48,21 @@ function App() {
             <AddUser />
           </Layout>
         </Route>
-
+        <Route path="/add-product">
+          <Layout>
+            <>Products</>
+          </Layout>
+        </Route>
+        <Route path="/tickets/:id">
+          <Layout>
+            <TicketDetailPage />
+          </Layout>
+        </Route>
+        <Route path="/users">
+          <Layout>
+            <Users />
+          </Layout>
+        </Route>
         <Route path="**">
           <Layout>
             <NotFound />

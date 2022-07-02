@@ -4,87 +4,141 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
+import { toast } from "react-toastify";
+
+const formValidationSchema = Yup.object({
+  subject: Yup.string().required("  Subject is required"),
+  assignee: Yup.string().required("  Assignee is required"),
+  client: Yup.string().required("  Client is required"),
+  message: Yup.string().required("  Message is required"),
+  issueDate: Yup.string().required("  Issue Date is required"),
+});
 
 function AddTicket() {
-  const [ticketData, setTicketData] = useState({
-    subject: "",
-    conversation: [],
-    assignee: "",
-    endUser: "",
-    message: "",
-  });
+  const [clients, setClients] = useState([]);
+  const [agents, setAgents] = useState([]);
 
-  const { subject, conversation, assignee, endUser, message } = ticketData;
+  const { values, handleBlur, handleChange, errors, touched, handleSubmit } =
+    useFormik({
+      initialValues: {
+        subject: "",
+        conversation: [],
+        assignee: "",
+        client: "",
+        message: "",
+        issueDate: "",
+        ticketStatus: "open",
+      },
+      validationSchema: formValidationSchema,
+      onSubmit: (values) => {
+        values.conversation.push({
+          sender: values.client,
+          message: values.message,
+        });
+        // console.log("onSubmit", values);
+        const url = "http://localhost:4000/tickets/add";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+          },
+          body: JSON.stringify({
+            token: "tokenStringGoesHere",
+            ticketData: values,
+          }),
+        })
+          .then((data) => data.json())
+          .then((data) => {
+            // console.log("Success:", data);
+            if (data.type === "error") {
+              toast.error(data.message);
+            } else if (data.type === "success") {
+              toast.success(data.message);
+              // history.push("/");
+            }
+          });
+      },
+    });
 
-  const onInputChange = (e) => {
-    setTicketData({ ...ticketData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  function getAllUsers() {
+    const url = "http://localhost:4000/users/all";
 
-    if (!subject || !assignee || !endUser || !message) {
-      return alert(
-        "Pls fill the subject, conversation, assignee, endUser, message"
-      );
-    }
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: JSON.stringify({
+        // token: Cookies.get("token"),
+      }),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        // console.log("data", data.data);
+        if (data.type === "success") {
+          // console.log("client", filterUserType(data.data, "client"));
+          setClients(filterUserType(data.data, "client"));
+          setAgents(filterUserType(data.data, "agent"));
+          // console.log("agent", filterUserType(data.data, "agent"));
+        }
+        // setFirstName(data.fname);
+        // setLastName(data.lname);
+        // setEmailId(data.email);
+        // setlinklist(data);
+      });
+  }
 
-    console.log("logindata", ticketData);
-  };
+  // console.log(clients);
+  // console.log(agents);
+
+  function filterUserType(inputdata, type) {
+    return inputdata.filter(function (itm) {
+      return itm.usertype === type;
+    });
+  }
 
   return (
     <Container fluid>
-      <Form>
-        <Row className="">
-          <Col className="frames__col p-3" lg="3">
-            <Form.Group className="mb-3">
-              <Form.Label>User</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                name="endUser"
-                onChange={(e) => onInputChange(e)}
-              >
-                <option>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Assignee</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                name="assignee"
-                onChange={(e) => onInputChange(e)}
-              >
-                <option>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col className="frames__col p-3" lg="9">
+      <Form onSubmit={handleSubmit}>
+        <Row className="justify-content-center">
+          <Col className="p-3" lg="10">
             <Form.Group className="">
               <Form.Label>Subject</Form.Label>
               <Form.Control
                 type="text"
                 name="subject"
-                onChange={(e) => onInputChange(e)}
-                placeholder="Enter your email id"
-                value={subject}
+                value={values.subject}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.subject && errors.subject}
               />
+              {errors.subject && touched.subject ? errors.subject : ""}
             </Form.Group>
-            <div
-              style={{
-                height: "250px",
-                overflowY: "scroll",
-                backgroundColor: "#FFF",
-                border: "1px solid #ccc",
-                padding: "10px",
-              }}
-            ></div>
+            <Form.Group className="mb-3">
+              <Form.Label>Issue Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="issueDate"
+                value={values.issueDate}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.issueDate && errors.issueDate}
+                required
+              />
+              {errors.issueDate && touched.issueDate ? errors.issueDate : ""}
+            </Form.Group>
             <Form.Group className="mb-3">
               <FloatingLabel
                 controlId="floatingTextarea"
@@ -95,14 +149,58 @@ function AddTicket() {
                   as="textarea"
                   style={{ height: "100px" }}
                   name="message"
-                  value={message}
-                  onChange={(e) => onInputChange(e)}
+                  value={values.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.message && errors.message}
+                  required
                 />
               </FloatingLabel>
-              <Button type="submit" onClick={(e) => onSubmit(e)}>
-                Submit
-              </Button>
+              {errors.message && touched.message ? errors.message : ""}
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Assignee</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                name="assignee"
+                value={values.assignee}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.assignee && errors.assignee}
+              >
+                <option>Assign a agent</option>
+                {clients.map(function (client) {
+                  return (
+                    <option key={client._id} value={client.fname}>
+                      {client.fname}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+              {errors.assignee && touched.assignee ? errors.assignee : ""}
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Client</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                name="client"
+                value={values.client}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.client && errors.client}
+              >
+                <option>Assign a client</option>
+                {agents.map(function (agent) {
+                  return (
+                    <option key={agent._id} value={agent.fname}>
+                      {agent.fname}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+              {errors.client && touched.client ? errors.client : ""}
+            </Form.Group>
+            <Button type="submit">Submit</Button>
           </Col>
         </Row>
       </Form>

@@ -2,29 +2,88 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
+
+import { toast } from "react-toastify";
+
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
+import AuthContext from "../context/AuthContextProvider";
+
+const formValidationSchema = Yup.object({
+  email: Yup.string().email().required("  Email is required"),
+  password: Yup.string().required("  Password is required"),
+});
 
 function LoginPg() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+  const history = useHistory();
+  const { loggedIn, setLoggedIn, setUserInfo, setFirstName, setUserRole } =
+    useContext(AuthContext);
+  const { values, handleBlur, handleChange, errors, touched, handleSubmit } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: formValidationSchema,
+      onSubmit: (values) => {
+        console.log("onSubmit", values);
+        // Cookies.set("token", "XYXZZXX");
+        const url = "http://localhost:4000/users/login";
+        fetch(url, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+          },
+          body: JSON.stringify(values),
+        })
+          .then((data) => data.json())
+          .then((data) => {
+            console.log("Success:", data);
+            if (data.type === "error") {
+              toast.error(data.message);
+            } else if (data.type === "success") {
+              console.log(data);
+              if (data.message === "Login Successful") {
+                toast.success(data.message);
+                setLoggedIn(true);
+                Cookies.set("token", data.token);
+                history.push("/dashboard");
+                setUserInfo(data.user);
+                setLoggedIn(data.status);
+                setFirstName(data.user.fname);
+                setUserRole(data.user.role);
+              }
+            }
+          });
+      },
+    });
+  // const [user, setUser] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const { email, password } = user;
+  // const { email, password } = user;
 
-  const onInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
+  // const onInputChange = (e) => {
+  //   setUser({ ...user, [e.target.name]: e.target.value });
+  // };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
 
-    if (!email || !password) {
-      return alert("Pls fill the email / password");
-    }
+  //   if (!email || !password) {
+  //     return alert("Pls fill the email / password");
+  //   }
 
-    console.log("logindata", user);
-  };
+  //   console.log("logindata", user);
+  // };
 
   return (
     <div className="loginPg">
@@ -33,15 +92,15 @@ function LoginPg() {
           <h2>LOGIN</h2>
         </Card.Header>
         <Card.Body>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
-                type="email"
                 name="email"
-                onChange={(e) => onInputChange(e)}
-                placeholder="Enter your email id"
-                value={email}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.email && errors.email}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -49,12 +108,13 @@ function LoginPg() {
               <Form.Control
                 type="password"
                 name="password"
-                onChange={(e) => onInputChange(e)}
-                placeholder="Enter your password"
-                value={password}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.password && errors.password}
               />
             </Form.Group>
-            <Button className="mb-3" type="submit" onClick={(e) => onSubmit(e)}>
+            <Button className="mb-3" type="submit">
               Login
             </Button>
           </Form>

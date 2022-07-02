@@ -7,23 +7,21 @@ function TicketTable({ ticketList }) {
       <thead>
         <tr>
           <th style={{ width: "6%" }}>#</th>
-          <th style={{ width: "49%" }}>Ticket</th>
+          <th style={{ width: "69%" }}>Ticket</th>
           <th style={{ width: "10%" }}>Status</th>
           <th style={{ width: "15%" }}>Opened Date</th>
-          <th style={{ width: "20%" }}>Product</th>
         </tr>
       </thead>
       <tbody>
         {ticketList.length ? (
           ticketList.map((item, i) => (
-            <tr>
+            <tr key={item._id}>
               <td>{i + 1}</td>
               <td>
-                <Link to={`/ticket/${item._id}`}>{item.subject}</Link>
+                <Link to={`/tickets/${item._id}`}>{item.subject}</Link>
               </td>
-              <td>{item.status}</td>
-              <td>{item.date}</td>
-              <td>{item.product}</td>
+              <td>{item.ticketStatus}</td>
+              <td>{item.issueDate}</td>
             </tr>
           ))
         ) : (
