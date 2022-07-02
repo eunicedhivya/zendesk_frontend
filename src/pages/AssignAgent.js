@@ -6,6 +6,8 @@ import { faTicket } from "@fortawesome/free-solid-svg-icons";
 import ManageTicketTable from "../components/ManageTicketTable";
 import { useState, useEffect } from "react";
 
+import Cookies from "js-cookie";
+
 function AssignAgent() {
   const [ticketList, setTicketList] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
@@ -27,7 +29,7 @@ function AssignAgent() {
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        token: "tokenStringGoesHere",
+        token: Cookies.get("token"),
       }),
     })
       .then((data) => data.json())

@@ -9,14 +9,14 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
+import AuthContext from "../context/AuthContextProvider";
+
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
 import { toast } from "react-toastify";
 
 import { useContext } from "react";
-import AuthContext from "../context/AuthContextProvider";
-
 const formValidationSchema = Yup.object({
   assignee: Yup.string().required("  Assignee is required"),
 });
@@ -46,7 +46,7 @@ function AssignAgentEditPg() {
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        token: "tokenStringGoesHere",
+        token: Cookies.get("token"),
       }),
     })
       .then((data) => data.json())
@@ -74,7 +74,7 @@ function AssignAgentEditPg() {
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        // token: Cookies.get("token"),
+        token: Cookies.get("token"),
       }),
     })
       .then((data) => data.json())
