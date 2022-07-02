@@ -43,6 +43,8 @@ function Dashboard() {
           console.log("fg", fd);
           if (userRole !== "client") {
             setTicketList(data.data);
+            setTotalOpen(getByTicketStatus(data.data, "open").length);
+            setTotalClosed(getByTicketStatus(data.data, "closed").length);
           } else {
             setTicketList(fd);
           }
