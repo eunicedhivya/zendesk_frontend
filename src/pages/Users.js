@@ -3,27 +3,39 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataPoints from "../components/DataPoints";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import TicketTable from "../components/TicketTable";
+import UserTable from "../components/UserTable";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
-function Dashboard() {
-  const ticketList = [
-    {
-      _id: 600009040440,
-      subject: "File not found error",
-      status: "Pending",
-      message: [],
-      date: "June 11, 2020",
-      product: "Product 1",
-    },
-    {
-      _id: 600009040441,
-      subject: "Unable to install product from provided CD",
-      status: "open",
-      message: [],
-      date: "June 12, 2020",
-      product: "Product 2",
-    },
-  ];
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getAllusers();
+  }, []);
+
+  function getAllusers() {
+    const url = "https://zendeskclone-ed.herokuapp.com/users/all";
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: JSON.stringify({
+        token: Cookies.get("token"),
+      }),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        // console.log("data", data.data);
+        if (data.type === "success") {
+          setUsers(data.data);
+        }
+      });
+  }
+
   return (
     <div>
       <Container className="mt-4">
@@ -45,7 +57,7 @@ function Dashboard() {
         <Row>
           <Col className="recent-ticket">
             {/* <TicketTable tickets={tickets} /> */}
-            <TicketTable ticketList={ticketList} />
+            <UserTable users={users} />
           </Col>
         </Row>
       </Container>
@@ -53,4 +65,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Users;

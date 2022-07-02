@@ -4,9 +4,15 @@ import Col from "react-bootstrap/Col";
 import DataPoints from "../components/DataPoints";
 import { faTicket } from "@fortawesome/free-solid-svg-icons";
 import TicketTable from "../components/TicketTable";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
+import AuthContext from "../context/AuthContextProvider";
+
+import Cookies from "js-cookie";
 
 function Dashboard() {
+  const { loggedIn, userRole, firstName } = useContext(AuthContext);
+
   const [ticketList, setTicketList] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
   const [totalOpen, setTotalOpen] = useState(0);
@@ -17,37 +23,38 @@ function Dashboard() {
   }, []);
 
   function getAllTickets() {
-    const url = "http://localhost:4000/tickets/all";
+    const url = "https://zendeskclone-ed.herokuapp.com/tickets/all";
 
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        token: "tokenStringGoesHere",
+        token: Cookies.get("token"),
       }),
     })
       .then((data) => data.json())
       .then((data) => {
         // console.log("data", data.data);
         if (data.type === "success") {
-          // console.log("client", filterUserType(data.data, "client"));
-          setTicketList(data.data);
-
-          // console.log(getByTicketStatus(data.data, "open").length);
-          // console.log(getByTicketStatus(data.data, "close").length);
-
-          setTotalTickets(data.data.length);
-          setTotalOpen(getByTicketStatus(data.data, "open").length);
-          setTotalClosed(getByTicketStatus(data.data, "closed").length);
-          // console.log("agent", filterUserType(data.data, "agent"));
+          const fd = getTicketByClient(data.data, firstName);
+          console.log("fg", fd);
+          if (userRole !== "client") {
+            setTicketList(data.data);
+          } else {
+            setTicketList(fd);
+          }
         }
       });
   }
 
+  function getTicketByClient(inputdata, fname) {
+    return inputdata.filter(function (itm) {
+      return itm.client === fname;
+    });
+  }
   function getByTicketStatus(inputdata, status) {
     return inputdata.filter(function (itm) {
       return itm.ticketStatus === status;

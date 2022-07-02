@@ -37,15 +37,15 @@ function App() {
             <Dashboard />
           </Layout>
         </Route>
-        <Route path="/forget-password">
+        <Route exact path="/forget-password">
           <ForgetPassword />
         </Route>
-        <Route path="/add-ticket">
+        <Route exact path="/add-ticket">
           <Layout>
             <AddTicket />
           </Layout>
         </Route>
-        <Route path="/add-user">
+        <Route exact path="/add-user">
           <Layout>
             <AddUser />
           </Layout>
@@ -60,12 +60,12 @@ function App() {
             <AssignAgentEditPg />
           </Layout>
         </Route>
-        <Route path="/tickets/:id">
+        <Route exact path="/tickets/:id">
           <Layout>
             <TicketDetailPage />
           </Layout>
         </Route>
-        <Route path="/users">
+        <Route exact path="/users">
           <Layout>
             <Users />
           </Layout>

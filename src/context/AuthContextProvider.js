@@ -13,11 +13,11 @@ function AuthContextProvider(props) {
   }, []);
 
   async function getLoggedIn() {
-    // const url = "https://urlshortener-clone.herokuapp.com/users/loggedIn";
-    const url = "http://localhost:4000/users/loggedIn";
+    const url = "https://zendeskclone-ed.herokuapp.com/users/loggedIn";
 
     fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -35,16 +35,6 @@ function AuthContextProvider(props) {
           setUserRole(data.user.role);
         }
       });
-
-    // console.log("isLoggedIn", loggedIn);
-
-    // fetch(url, { method: "GET", credentials: "include" })
-    //   .then((data) => data.json())
-    //   .then((data) => {
-    //     console.log("data", data);
-    //     setLoggedIn(data);
-    //   });
-    // .then(() => history.push("/mentors"));
   }
 
   return (

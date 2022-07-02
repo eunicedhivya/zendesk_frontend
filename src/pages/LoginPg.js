@@ -32,13 +32,12 @@ function LoginPg() {
       onSubmit: (values) => {
         console.log("onSubmit", values);
         // Cookies.set("token", "XYXZZXX");
-        const url = "http://localhost:4000/users/login";
+        const url = "https://zendeskclone-ed.herokuapp.com/users/login";
         fetch(url, {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Credentials": true,
           },
           body: JSON.stringify(values),

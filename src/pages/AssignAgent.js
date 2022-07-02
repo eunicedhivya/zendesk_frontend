@@ -17,7 +17,7 @@ function AssignAgent() {
   }, []);
 
   function getAllTickets() {
-    const url = "http://localhost:4000/tickets/all";
+    const url = "https://zendeskclone-ed.herokuapp.com/tickets/all";
 
     fetch(url, {
       method: "POST",

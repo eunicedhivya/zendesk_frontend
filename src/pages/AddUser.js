@@ -30,7 +30,7 @@ function AddTicket() {
       onSubmit: (values) => {
         // console.log("onSubmit", values);
         // const url = "https://urlshortener-clone.herokuapp.com/users/signup";
-        const url = "http://localhost:4000/users/signup";
+        const url = "https://zendeskclone-ed.herokuapp.com/users/signup";
         fetch(url, {
           method: "POST",
           headers: {

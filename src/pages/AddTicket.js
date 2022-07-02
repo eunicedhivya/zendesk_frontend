@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContextProvider";
 
+import Cookies from "js-cookie";
+
 const formValidationSchema = Yup.object({
   subject: Yup.string().required("  Subject is required"),
   message: Yup.string().required("  Message is required"),
@@ -49,7 +51,7 @@ function AddTicket() {
         }
 
         console.log("onSubmit", values);
-        const url = "http://localhost:4000/tickets/add";
+        const url = "https://zendeskclone-ed.herokuapp.com/tickets/add";
         fetch(url, {
           method: "POST",
           headers: {
@@ -58,7 +60,7 @@ function AddTicket() {
             "Access-Control-Allow-Credentials": true,
           },
           body: JSON.stringify({
-            token: "tokenStringGoesHere",
+            token: Cookies.get("token"),
             ticketData: values,
           }),
         })
@@ -79,7 +81,7 @@ function AddTicket() {
   }, []);
 
   function getAllUsers() {
-    const url = "http://localhost:4000/users/all";
+    const url = "https://zendeskclone-ed.herokuapp.com/users/all";
 
     fetch(url, {
       method: "POST",

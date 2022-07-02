@@ -61,7 +61,7 @@ function SiteHeader() {
                     toast.success("Logged out!");
                     history.push("/");
 
-                    // const url = "http://localhost:4000/users/logout";
+                    // const url = "https://zendeskclone-ed.herokuapp.com/users/logout";
                     // fetch(url, {
                     //   method: "GET",
                     //   credentials: "include",

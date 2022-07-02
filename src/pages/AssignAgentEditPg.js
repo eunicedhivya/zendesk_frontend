@@ -36,7 +36,7 @@ function AssignAgentEditPg() {
   }, [ticketDetails]);
 
   function getTicket() {
-    const url = "http://localhost:4000/tickets/" + ticketid;
+    const url = "https://zendeskclone-ed.herokuapp.com/tickets/" + ticketid;
 
     fetch(url, {
       method: "POST",
@@ -64,7 +64,7 @@ function AssignAgentEditPg() {
   }, []);
 
   function getAllUsers() {
-    const url = "http://localhost:4000/users/all";
+    const url = "https://zendeskclone-ed.herokuapp.com/users/all";
 
     fetch(url, {
       method: "POST",
@@ -102,7 +102,8 @@ function AssignAgentEditPg() {
         console.log("onSubmit", values);
         // values.sender = firstName;
         // values.role = userRole;
-        const url = "http://localhost:4000/tickets/assignee/" + ticketid;
+        const url =
+          "https://zendeskclone-ed.herokuapp.com/tickets/assignee/" + ticketid;
         fetch(url, {
           method: "PUT",
           headers: {

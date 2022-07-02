@@ -34,7 +34,7 @@ function TicketDetailPage() {
   }, [ticketDetails]);
 
   function getAllTickets() {
-    const url = "http://localhost:4000/tickets/" + id;
+    const url = "https://zendeskclone-ed.herokuapp.com/tickets/" + id;
 
     fetch(url, {
       method: "POST",
@@ -44,7 +44,7 @@ function TicketDetailPage() {
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        token: "tokenStringGoesHere",
+        token: Cookies.get("token"),
       }),
     })
       .then((data) => data.json())
@@ -69,7 +69,7 @@ function TicketDetailPage() {
         values.sender = firstName;
         values.role = userRole;
 
-        const url = "http://localhost:4000/tickets/" + id;
+        const url = "https://zendeskclone-ed.herokuapp.com/tickets/" + id;
         fetch(url, {
           method: "PUT",
           headers: {
@@ -119,7 +119,8 @@ function TicketDetailPage() {
                     <Button
                       onClick={() => {
                         const closeurl =
-                          "http://localhost:4000/tickets/close/" + id;
+                          "https://zendeskclone-ed.herokuapp.com/tickets/close/" +
+                          id;
 
                         fetch(closeurl, {
                           method: "PUT",
