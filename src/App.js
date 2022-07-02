@@ -15,10 +15,9 @@ import NotFound from "./pages/NotFound";
 import AddUser from "./pages/AddUser";
 import Users from "./pages/Users";
 import TicketDetailPage from "./pages/TicketDetailPage";
-// import AddTicketByClient from "./pages/AddTicketByClient";
-// import AddTicketByAgent from "./pages/AddTicketByAgent";
-// import AddTicketByAdmin from "./pages/AddTicketByAdmin";
 import AddTicket from "./pages/AddTicket";
+import AssignAgent from "./pages/AssignAgent";
+import AssignAgentEditPg from "./pages/AssignAgentEditPg";
 
 import { useContext } from "react";
 import AuthContext from "./context/AuthContextProvider";
@@ -46,42 +45,19 @@ function App() {
             <AddTicket />
           </Layout>
         </Route>
-        {/* {userRole === "client" ? (
-          <Route path="/add-ticket">
-            <Layout>
-              <AddTicketByClient />
-            </Layout>
-          </Route>
-        ) : (
-          ""
-        )}
-        {userRole === "agent" ? (
-          <Route path="/add-ticket">
-            <Layout>
-              <AddTicketByAgent />
-            </Layout>
-          </Route>
-        ) : (
-          ""
-        )}
-        {userRole === "admin" ? (
-          <Route path="/add-ticket">
-            <Layout>
-              <AddTicketByAdmin />
-            </Layout>
-          </Route>
-        ) : (
-          ""
-        )} */}
-
         <Route path="/add-user">
           <Layout>
             <AddUser />
           </Layout>
         </Route>
-        <Route path="/add-product">
+        <Route exact path="/assign-agent">
           <Layout>
-            <>Products</>
+            <AssignAgent />
+          </Layout>
+        </Route>
+        <Route exact path="/assign-agent/:ticketid">
+          <Layout>
+            <AssignAgentEditPg />
           </Layout>
         </Route>
         <Route path="/tickets/:id">

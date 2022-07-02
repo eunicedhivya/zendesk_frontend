@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
+  faTicket,
   faUserGroup,
   faLayerGroup,
   faStore,
@@ -10,7 +11,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Row } from "react-bootstrap";
 
+import { useContext } from "react";
+import AuthContext from "../context/AuthContextProvider";
+
 function MainNavBar() {
+  const { loggedIn, userRole, firstName, setLoggedIn } =
+    useContext(AuthContext);
   return (
     <nav className="mainNavBar">
       <Row className="text-center siteBranding">
@@ -20,18 +26,18 @@ function MainNavBar() {
         <Link to="/dashboard">
           <FontAwesomeIcon icon={faHome} />
         </Link>
-        <Link to="/users">
-          <FontAwesomeIcon icon={faUserGroup} />
-        </Link>
-        <Link to="/categories">
-          <FontAwesomeIcon icon={faLayerGroup} />
-        </Link>
-        <Link to="/products">
-          <FontAwesomeIcon icon={faStore} />
-        </Link>
-        <Link to="/settings">
-          <FontAwesomeIcon icon={faGear} />
-        </Link>
+        {userRole === "agent" || userRole === "admin" ? (
+          <>
+            <Link to="/assign-agent">
+              <FontAwesomeIcon icon={faTicket} />
+            </Link>
+            <Link to="/users">
+              <FontAwesomeIcon icon={faUserGroup} />
+            </Link>
+          </>
+        ) : (
+          ""
+        )}
       </Row>
       <Row>.</Row>
     </nav>

@@ -25,7 +25,9 @@ function SiteHeader() {
       <Container fluid>
         <Row>
           <Col>
-            <h2 className="welcomeUser">Welcome, {firstName}</h2>
+            <h2 className="welcomeUser">
+              Welcome, {firstName} <small>({userRole})</small>
+            </h2>
           </Col>
           <Col md="auto">
             <Dropdown>

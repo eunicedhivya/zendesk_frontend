@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
@@ -113,35 +113,39 @@ function TicketDetailPage() {
                   </p>
                 </Col>
                 <Col lg="2" className="text-right">
-                  <Button
-                    onClick={() => {
-                      const closeurl =
-                        "http://localhost:4000/tickets/close/" + id;
+                  {ticketDetails.ticketStatus === "closed" ? (
+                    "Ticket Closed"
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        const closeurl =
+                          "http://localhost:4000/tickets/close/" + id;
 
-                      fetch(closeurl, {
-                        method: "PUT",
-                        headers: {
-                          "Content-Type": "application/json",
-                          "Access-Control-Allow-Origin": "*",
-                          "Access-Control-Allow-Credentials": true,
-                        },
-                        body: JSON.stringify({
-                          token: Cookies.get("token"),
-                        }),
-                      })
-                        .then((data) => data.json())
-                        .then((data) => {
-                          // console.log("Success:", data);
-                          if (data.type === "error") {
-                            toast.error(data.message);
-                          } else if (data.type === "success") {
-                            toast.success(data.message);
-                          }
-                        });
-                    }}
-                  >
-                    Close ticket
-                  </Button>
+                        fetch(closeurl, {
+                          method: "PUT",
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Credentials": true,
+                          },
+                          body: JSON.stringify({
+                            token: Cookies.get("token"),
+                          }),
+                        })
+                          .then((data) => data.json())
+                          .then((data) => {
+                            // console.log("Success:", data);
+                            if (data.type === "error") {
+                              toast.error(data.message);
+                            } else if (data.type === "success") {
+                              toast.success(data.message);
+                            }
+                          });
+                      }}
+                    >
+                      Close ticket
+                    </Button>
+                  )}
                 </Col>
               </Row>
             </Card.Header>
@@ -159,8 +163,17 @@ function TicketDetailPage() {
                 );
               })}
             </Card.Body>
+
             {ticketDetails.ticketStatus === "closed" ? (
               ""
+            ) : ticketDetails.assignee === "unassigned" ? (
+              <Card.Footer className="text-center p-3">
+                <Row>
+                  <a href={"/assign-agent/" + id}>
+                    Click here to assign an agent
+                  </a>
+                </Row>
+              </Card.Footer>
             ) : (
               <Card.Footer className="scrollBox">
                 <Form onSubmit={handleSubmit}>
