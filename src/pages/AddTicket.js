@@ -91,7 +91,7 @@ function AddTicket() {
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        // token: Cookies.get("token"),
+        token: Cookies.get("token"),
       }),
     })
       .then((data) => data.json())
