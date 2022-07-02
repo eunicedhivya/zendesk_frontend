@@ -113,7 +113,35 @@ function TicketDetailPage() {
                   </p>
                 </Col>
                 <Col lg="2" className="text-right">
-                  <Button>Close ticket</Button>
+                  <Button
+                    onClick={() => {
+                      const closeurl =
+                        "http://localhost:4000/tickets/close/" + id;
+
+                      fetch(closeurl, {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                          "Access-Control-Allow-Origin": "*",
+                          "Access-Control-Allow-Credentials": true,
+                        },
+                        body: JSON.stringify({
+                          token: Cookies.get("token"),
+                        }),
+                      })
+                        .then((data) => data.json())
+                        .then((data) => {
+                          // console.log("Success:", data);
+                          if (data.type === "error") {
+                            toast.error(data.message);
+                          } else if (data.type === "success") {
+                            toast.success(data.message);
+                          }
+                        });
+                    }}
+                  >
+                    Close ticket
+                  </Button>
                 </Col>
               </Row>
             </Card.Header>
@@ -131,34 +159,40 @@ function TicketDetailPage() {
                 );
               })}
             </Card.Body>
-            <Card.Footer className="scrollBox">
-              <Form onSubmit={handleSubmit}>
-                <Row className="justify-content-center">
-                  <Col className="p-3" lg="12">
-                    <Form.Group className="">
-                      <FloatingLabel
-                        controlId="floatingTextarea"
-                        label="Comments"
-                        className="mb-3"
-                      >
-                        <Form.Control
-                          as="textarea"
-                          style={{ height: "100px" }}
-                          name="message"
-                          value={values.message}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.message && errors.message}
-                          required
-                        />
-                      </FloatingLabel>
-                      {errors.message && touched.message ? errors.message : ""}
-                    </Form.Group>
-                    <Button type="submit">Submit</Button>
-                  </Col>
-                </Row>
-              </Form>
-            </Card.Footer>
+            {ticketDetails.ticketStatus === "closed" ? (
+              ""
+            ) : (
+              <Card.Footer className="scrollBox">
+                <Form onSubmit={handleSubmit}>
+                  <Row className="justify-content-center">
+                    <Col className="p-3" lg="12">
+                      <Form.Group className="">
+                        <FloatingLabel
+                          controlId="floatingTextarea"
+                          label="Comments"
+                          className="mb-3"
+                        >
+                          <Form.Control
+                            as="textarea"
+                            style={{ height: "100px" }}
+                            name="message"
+                            value={values.message}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.message && errors.message}
+                            required
+                          />
+                        </FloatingLabel>
+                        {errors.message && touched.message
+                          ? errors.message
+                          : ""}
+                      </Form.Group>
+                      <Button type="submit">Submit</Button>
+                    </Col>
+                  </Row>
+                </Form>
+              </Card.Footer>
+            )}
           </Card>
         </Col>
       </Row>

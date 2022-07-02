@@ -9,19 +9,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import LoginPg from "./pages/LoginPg";
-import AddTicket from "./pages/AddTicket";
 import Layout from "./layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import AddUser from "./pages/AddUser";
 import Users from "./pages/Users";
 import TicketDetailPage from "./pages/TicketDetailPage";
+import AddTicketByClient from "./pages/AddTicketByClient";
+import AddTicketByAgent from "./pages/AddTicketByAgent";
+import AddTicketByAdmin from "./pages/AddTicketByAdmin";
 
 import { useContext } from "react";
 import AuthContext from "./context/AuthContextProvider";
 
 function App() {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, userRole, firstName } = useContext(AuthContext);
   return (
     <div className="App">
       <ToastContainer autoClose={4000} />
@@ -38,11 +40,34 @@ function App() {
         <Route path="/forget-password">
           <ForgetPassword />
         </Route>
-        <Route path="/add-ticket">
-          <Layout>
-            <AddTicket />
-          </Layout>
-        </Route>
+        {userRole === "client" ? (
+          <Route path="/add-ticket">
+            <Layout>
+              <AddTicketByClient />
+            </Layout>
+          </Route>
+        ) : (
+          ""
+        )}
+        {userRole === "agent" ? (
+          <Route path="/add-ticket">
+            <Layout>
+              <AddTicketByAgent />
+            </Layout>
+          </Route>
+        ) : (
+          ""
+        )}
+        {userRole === "admin" ? (
+          <Route path="/add-ticket">
+            <Layout>
+              <AddTicketByAdmin />
+            </Layout>
+          </Route>
+        ) : (
+          ""
+        )}
+
         <Route path="/add-user">
           <Layout>
             <AddUser />
