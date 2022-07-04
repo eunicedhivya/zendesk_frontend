@@ -1,4 +1,5 @@
-deployed site: [https://chimerical-marigold-0d2860.netlify.app/](https://chimerical-marigold-0d2860.netlify.app/)
+deployed site: [https://chimerical-marigold-0d2860.netlify.app/](https://chimerical-marigold-0d2860.netlify.app/) <br />
+deployed backend: [https://zendeskclone-ed.herokuapp.com/](https://zendeskclone-ed.herokuapp.com/)
 
 # Demo account:
 
