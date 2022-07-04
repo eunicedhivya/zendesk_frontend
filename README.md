@@ -1,3 +1,5 @@
+deployed site: [https://chimerical-marigold-0d2860.netlify.app/](https://chimerical-marigold-0d2860.netlify.app/)
+
 # Demo account:
 
 *** Client *** <br>
